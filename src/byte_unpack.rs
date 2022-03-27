@@ -25,7 +25,7 @@ impl fmt::Display for ByteLayoutParsingError {
     }
 }
 
-#[macro_export]
+##[macro_export]
 macro_rules! byte_layout {
     (@inner value [$target_field:ident, $byte_parser:expr, $self_accessor:ident, $tail:ident]) => {
         match $byte_parser($tail) {
@@ -45,7 +45,7 @@ macro_rules! byte_layout {
                 $tail = t;
                 $self_accessor.$target_field_pure = b.to_vec();
             },
-            Err(e) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+            Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
                 type_name: std::any::type_name::<Self>().to_string(),
                 field_name: stringify!($target_field_pure).to_string(),
             }),
@@ -57,7 +57,7 @@ macro_rules! byte_layout {
                 $tail = t;
                 $self_accessor.$target_field_bytes_vec_lit = b.to_vec();
             },
-            Err(e) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+            Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
                 type_name: std::any::type_name::<Self>().to_string(),
                 field_name: stringify!($target_field_pure).to_string(),
             }),
@@ -71,7 +71,7 @@ macro_rules! byte_layout {
                     $tail = t;
                     $self_accessor.$target_field_primitive.push(v);
                 },
-                Err(e) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+                Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
                     type_name: std::any::type_name::<Self>().to_string(),
                     field_name: stringify!($target_field_primitive).to_string(),
                 }),
@@ -86,7 +86,7 @@ macro_rules! byte_layout {
                     $tail = t;
                     $self_accessor.$target_field_primitive_lit.push(v);
                 },
-                Err(e) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+                Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
                     type_name: std::any::type_name::<Self>().to_string(),
                     field_name: stringify!($target_field_primitive).to_string(),
                 }),
