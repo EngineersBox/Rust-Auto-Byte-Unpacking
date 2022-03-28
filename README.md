@@ -33,7 +33,7 @@ _*Note*_: The use of `[...]?` here indicates an optional value.
 When specifying endianness, with a layout, there are three to choose from:
 
 * `Big`
-* `Small`
+* `Little`
 * `Native`
 
 You will need to provide these according to the desired byte ordering. Note that single bytes (`u8`) do not need to provide it as it doesn't change the read.
@@ -68,7 +68,7 @@ byte_layout!{
     ExampleStruct
     value [field1, u16, Big]
     value [field2, u8]
-    primitive_vec [field3, field2, u16, Small],
+    primitive_vec [field3, field2, u16, Little],
     bytes_vec_null_term [field4]
 }
 ```
