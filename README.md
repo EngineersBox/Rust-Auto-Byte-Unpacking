@@ -1,5 +1,5 @@
 # Rust-Auto-Byte-Unpacking
-A rust macro to define byte unpacking for structs
+A rust macro to define byte unpacking and packing for structs
 
 ## Usage
 
@@ -108,6 +108,30 @@ Parsed: ExampleStruct {
         0xEF
     ],
 }
+```
+
+If we wanted to pack the struct back into `Vec<u8>`, we just need to call `into_bytes()` on the struct instance:
+
+```rust
+println!("Packed: {:#04X?}", example_struct.into_bytes());
+```
+
+Which results in:
+
+```
+Packed: [
+    0xDE,
+    0xAD,
+    0x02,
+    0x34,
+    0x12,
+    0x78,
+    0x56,
+    0xDE,
+    0xAD,
+    0xBE,
+    0xEF,
+]
 ```
 
 ## Example
@@ -244,6 +268,46 @@ fn main() {
      *         0x05,
      *     ],
      * }
+     */
+    println!("Packed: {:#04X?}", test_struct.into_bytes());
+    /* Prints:
+     * Packed: [
+     *     0x2F,
+     *     0x00,
+     *     0x02,
+     *     0xBE,
+     *     0xEF,
+     *     0x02,
+     *     0xDE,
+     *     0xAD,
+     *     0x00,
+     *     0x00,
+     *     0x00,
+     *     0x02,
+     *     0x12,
+     *     0x34,
+     *     0x56,
+     *     0x78,
+     *     0x01,
+     *     0x10,
+     *     0xDE,
+     *     0xAD,
+     *     0xBE,
+     *     0xEF,
+     *     0x43,
+     *     0x21,
+     *     0x55,
+     *     0x01,
+     *     0x02,
+     *     0x03,
+     *     0x04,
+     *     0x05,
+     *     0x00,
+     * ]
+     */
+    println!("Is equivalent: {}", test == test_struct.into_bytes());
+    /* Prints:
+     * Is equivalent: true
      */
 }
 ```
