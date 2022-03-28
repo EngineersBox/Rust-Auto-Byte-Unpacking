@@ -20,6 +20,8 @@ struct TestStruct {
     pub i: Vec<u8>,
     pub j: Vec<u16>,
     pub k: Vec<Other>,
+    pub l: Other,
+    pub m: Vec<u8>,
 }
 
 byte_layout!(
@@ -34,6 +36,8 @@ byte_layout!(
     bytes_vec_lit [i, 2]
     primitive_vec_lit [j, 2, {nom::number::complete::be_u16::<I,E>}]
     composite_vec_lit [k, 2, Other]
+    composite [l, Other]
+    bytes_vec_null_term [m]
 );
 
 fn main() {
@@ -50,7 +54,9 @@ fn main() {
         0x10,
         0xDE, 0xAD,
         0xBE, 0xEF,
-        0x43, 0x21
+        0x43, 0x21,
+        0x55,
+        0x01, 0x02, 0x03, 0x04, 0x05, 0x00
     ];
     let mut test_struct: TestStruct = Default::default();
     println!("New: {:#04X?}", test_struct);
