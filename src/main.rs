@@ -5,7 +5,7 @@ struct Other {
 
 byte_layout!(
     Other
-    value [f, {nom::number::complete::be_u8::<I,E>}]
+    value [f, u8]
 );
 
 #[derive(Debug,Default)]
@@ -26,15 +26,15 @@ struct TestStruct {
 
 byte_layout!(
     TestStruct
-    value [a, {nom::number::complete::be_u8::<I,E>}]
-    value [b, {nom::number::complete::be_u16::<I,E>}]
+    value [a, u8]
+    value [b, u16, Big]
     bytes_vec [c, b]
-    value [d, {nom::number::complete::be_u8::<I,E>}]
+    value [d, u8]
     composite_vec [e, d, Other]
-    value [g, {nom::number::complete::be_u32::<I,E>}]
-    primitive_vec [h, g, {nom::number::complete::be_u16::<I,E>}]
+    value [g, u32, Big]
+    primitive_vec [h, g, u16, Big]
     bytes_vec_lit [i, 2]
-    primitive_vec_lit [j, 2, {nom::number::complete::be_u16::<I,E>}]
+    primitive_vec_lit [j, 2, u16, Big]
     composite_vec_lit [k, 2, Other]
     composite [l, Other]
     bytes_vec_null_term [m]
