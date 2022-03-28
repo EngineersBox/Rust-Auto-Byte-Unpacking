@@ -47,7 +47,7 @@ macro_rules! byte_layout {
                 $tail = t;
                 $self_accessor.$target_field = b;
             },
-            Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+            Err(_) => return Err(ByteLayoutParsingError{
                 type_name: std::any::type_name::<Self>().to_string(),
                 field_name: stringify!($target_field).to_string(),
             }),
@@ -62,7 +62,7 @@ macro_rules! byte_layout {
                 $tail = t;
                 $self_accessor.$target_field_pure = b.to_vec();
             },
-            Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+            Err(_) => return Err(ByteLayoutParsingError{
                 type_name: std::any::type_name::<Self>().to_string(),
                 field_name: stringify!($target_field_pure).to_string(),
             }),
@@ -80,7 +80,7 @@ macro_rules! byte_layout {
                 $tail = t;
                 $self_accessor.$target_field_bytes_vec_lit = b.to_vec();
             },
-            Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+            Err(_) => return Err(ByteLayoutParsingError{
                 type_name: std::any::type_name::<Self>().to_string(),
                 field_name: stringify!($target_field_pure).to_string(),
             }),
@@ -104,7 +104,7 @@ macro_rules! byte_layout {
                     }
                     $self_accessor.$target_field_bytes_vec_nt.push(*vec_v.get(0).unwrap());
                 },
-                Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+                Err(_) => return Err(ByteLayoutParsingError{
                     type_name: std::any::type_name::<Self>().to_string(),
                     field_name: stringify!($target_field_primitive).to_string(),
                 }),
@@ -126,7 +126,7 @@ macro_rules! byte_layout {
                     $tail = t;
                     $self_accessor.$target_field_primitive.push(v);
                 },
-                Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+                Err(_) => return Err(ByteLayoutParsingError{
                     type_name: std::any::type_name::<Self>().to_string(),
                     field_name: stringify!($target_field_primitive).to_string(),
                 }),
@@ -147,7 +147,7 @@ macro_rules! byte_layout {
                     $tail = t;
                     $self_accessor.$target_field_primitive_lit.push(v);
                 },
-                Err(_) => return Err(crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError{
+                Err(_) => return Err(ByteLayoutParsingError{
                     type_name: std::any::type_name::<Self>().to_string(),
                     field_name: stringify!($target_field_primitive).to_string(),
                 }),
@@ -217,9 +217,9 @@ macro_rules! byte_layout {
     ) => {
         impl $struct_name {
             #[allow(dead_code)]
-            pub fn parse_bytes<I, E>(&mut self, bytes: I) -> Result<I, crate::compiler::errors::proc_macro_errors::ByteLayoutParsingError>
+            pub fn parse_bytes<I, E>(&mut self, bytes: I) -> Result<I, ByteLayoutParsingError>
             where
-                I:  nom::InputTakeAtPosition + nom::FindSubstring<I> + nom::InputTake + crate::compiler::byte_unpack::ToVec<u8> + nom::Slice<std::ops::RangeFrom<usize>> + nom::InputIter<Item = u8> + nom::InputLength + Clone,
+                I:  nom::InputTakeAtPosition + nom::FindSubstring<I> + nom::InputTake + ToVec<u8> + nom::Slice<std::ops::RangeFrom<usize>> + nom::InputIter<Item = u8> + nom::InputLength + Clone,
                 E: nom::error::ParseError<I> {
                 let mut tail = bytes;
                 $(byte_layout!(@reader $alt [$elem$(, $args)*],self,tail);)+
