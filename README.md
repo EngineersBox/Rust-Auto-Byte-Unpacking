@@ -14,6 +14,8 @@ byte_layout!{
 
 ### Layout Types
 
+_*Note*_: The use of `[...]?` here indicates an optional value.
+
 | Name                        	| Syntax                                                                            	| Description                                                                                                                                                                                                                                                                                     	|
 |-----------------------------	|-----------------------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | Value                       	| `value [<target field>, <number type>[, <endianness>]?]`                          	| Read a single value as an number type into a target field with a given endianness.                                                                                                                                                                                                              	|
@@ -25,6 +27,16 @@ byte_layout!{
 | Composite                   	| `composite [<target field> <struct name>]`                                        	| Parse bytes required for a given struct into the target field. Note that the struct must have<br>`byte_layout!{}` declared on it and `#[derive(Default)]` as `parse_bytes::<_,_>(tail)` is called to a default instance of it.                                                                  	|
 | Composite Array             	| `composite_vec [<target field> <num count field> <struct name>]`                  	| Read n structs into a `Vec<_>` in the target field. The number of structs read is specified by the<br>byte count field. Note that the struct must have `byte_layout!{}` declared on it and<br>`#[derive(Default)]` as `parse_bytes::<_,_>(tail)` is called to a default instance of it.         	|
 | Literal Composite Array     	| `composite_vec_lit [<target field> <int count> <struct name>]`                    	| Read n structs into a `Vec<_>` in the target field. The number of structs read is specified by the<br>literal integer provided. Note that the struct must have `byte_layout!{}` declared on it and<br>`#[derive(Default)]` as `parse_bytes::<_,_>(tail)` is called to a default instance of it. 	|
+
+### Endianness
+
+When specifying endianness, with a layout, there are three to choose from:
+
+* `Big`
+* `Small`
+* `Native`
+
+You will need to provide these according to the desired byte ordering. Note that single bytes (`u8`) do not need to provide it as it doesn't change the read.
 
 ## Walkthrough
 
